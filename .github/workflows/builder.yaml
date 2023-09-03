@@ -11,7 +11,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Guix
-        uses: PromyLOPh/guix-install-action@v1.4
+        run: |
+          wget https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh
+          chmod +x guix-install.sh
+          ./guix-install.sh
 
       - name: Build
         run: |
