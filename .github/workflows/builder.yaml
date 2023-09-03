@@ -19,8 +19,9 @@ jobs:
 
       - name: Build
         run: |
+          guix time-machine -C './guix/base-channels.scm' -- describe -f channels > './guix/channels_.scm'
           #building image
-          image=$(guix time-machine -C './channels.scm' -- system image -t iso9660 './installer.scm')
+          image=$(guix time-machine -C './channels_.scm' -- system image -t iso9660 './installer.scm')
           
           export RELEASE_TAG=$(date +"%Y%m%d%H%M")
           echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
