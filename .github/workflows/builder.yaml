@@ -14,7 +14,7 @@ jobs:
         run: |
           wget https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh
           chmod +x guix-install.sh
-          ./guix-install.sh
+          sudo bash ./guix-install.sh
 
       - name: Build
         run: |
