@@ -1,0 +1,30 @@
+name: Create ISO image for guix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Guix
+        uses: PromyLOPh/guix-install-action@v1
+
+      - name: Build
+        run: |
+          #building image
+          image=$(guix time-machine -C './channels.scm' -- system image -t iso9660 './installer.scm')
+          
+          export RELEASE_TAG=$(date +"%Y%m%d%H%M")
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+          cp $image ./guix-installer-$RELEASE_TAG.iso
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Guix Image - ${{ env.RELEASE_TAG }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: guix-installer-${{ env.RELEASE_TAG }}.iso
