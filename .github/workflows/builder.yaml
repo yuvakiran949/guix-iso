@@ -6,6 +6,8 @@ on:
 jobs:
   create:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
@@ -26,10 +28,13 @@ jobs:
           export RELEASE_TAG=$(date +"%Y%m%d%H%M")
           echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
           cp $image ./guix-installer-$RELEASE_TAG.iso
+          cp channels_.scm channels.scm
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           name: Guix Image - ${{ env.RELEASE_TAG }}
           tag_name: ${{ env.RELEASE_TAG }}
-          files: guix-installer-${{ env.RELEASE_TAG }}.iso
+          files: |
+            guix-installer-${{ env.RELEASE_TAG }}.iso
+            channels.scm
