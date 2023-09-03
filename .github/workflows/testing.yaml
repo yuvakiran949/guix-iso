@@ -1,0 +1,24 @@
+name: Testing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: create a dummy file
+        run: |
+          echo "Hello World" > release.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Test Release
+          tag_name: v1.0
+          files: release.txt

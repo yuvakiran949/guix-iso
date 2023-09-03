@@ -6,6 +6,8 @@ on:
 jobs:
   create:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
